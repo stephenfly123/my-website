@@ -1,27 +1,38 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login</title>
+    <title>Admin Dashboard</title>
     <style>
-        body { background: #0b0f1a; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
-        .box { background: #161b22; padding: 30px; border-radius: 15px; display: inline-block; border: 1px solid #00d2ff; width: 300px; }
+        :root { --bg: #0b0f1a; --card: #161b22; --accent: #00d2ff; --text: #ffffff; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; text-align: center; padding: 20px; }
+        .box { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--accent); width: 100%; max-width: 400px; display: inline-block; margin-bottom: 20px; }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #0b0f1a; color: white; box-sizing: border-box; }
-        button { background: #00d2ff; color: #000; padding: 12px; width: 100%; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        #adminForm { display: none; }
+        button { background: var(--accent); color: #000; padding: 10px; width: 100%; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .post-item { background: #0b0f1a; padding: 10px; margin: 10px 0; border-radius: 8px; text-align: left; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .del-btn { background: #ff4444; color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; width: auto; }
+        #adminUI { display: none; }
     </style>
 </head>
 <body>
-    <div class="box" id="loginBox">
-        <h2>Admin PIN</h2>
+
+    <div id="loginBox" class="box">
+        <h2>Enter PIN</h2>
         <input type="password" id="pinInput" placeholder="8 6 6 8">
         <button onclick="verify()">Login</button>
     </div>
 
-    <div class="box" id="adminForm">
-        <h2>Add Post</h2>
-        <input type="text" id="newName" placeholder="User Name">
-        <textarea id="newMsg" placeholder="Message content..."></textarea>
-        <button id="postBtn" onclick="sendPost()">POST NOW</button>
+    <div id="adminUI">
+        <div class="box">
+            <h2>New Post</h2>
+            <input type="text" id="newName" placeholder="User Name">
+            <textarea id="newMsg" placeholder="Message..."></textarea>
+            <button onclick="sendPost()">ADD POST</button>
+        </div>
+
+        <div class="box">
+            <h2>Manage Posts</h2>
+            <div id="currentPosts">Loading...</div>
+        </div>
     </div>
 
     <script>
@@ -30,34 +41,43 @@
         function verify() {
             if(document.getElementById('pinInput').value === "8668") {
                 document.getElementById('loginBox').style.display = "none";
-                document.getElementById('adminForm').style.display = "inline-block";
+                document.getElementById('adminUI').style.display = "block";
+                loadAdminPosts();
             } else { alert("Wrong PIN"); }
         }
 
-        async function sendPost() {
-            const btn = document.getElementById('postBtn');
-            btn.innerText = "Posting...";
-            
-            const body = {
-                sheet1: {
-                    name: document.getElementById('newName').value,
-                    message: document.getElementById('newMsg').value,
-                    date: new Date().toLocaleDateString()
-                }
-            };
+        async function loadAdminPosts() {
+            const res = await fetch(sheetyUrl);
+            const data = await res.json();
+            const container = document.getElementById('currentPosts');
+            container.innerHTML = '';
+            data.sheet1.forEach(p => {
+                container.innerHTML += `
+                    <div class="post-item">
+                        <span>@${p.name}</span>
+                        <button class="del-btn" onclick="deletePost(${p.id})">DEL</button>
+                    </div>`;
+            });
+        }
 
-            const response = await fetch(sheetyUrl, {
+        async function sendPost() {
+            const body = { sheet1: {
+                name: document.getElementById('newName').value,
+                message: document.getElementById('newMsg').value,
+                date: new Date().toLocaleDateString()
+            }};
+            await fetch(sheetyUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
             });
+            loadAdminPosts();
+        }
 
-            if(response.ok) {
-                alert("Post Added to Cloud!");
-                location.reload();
-            } else { 
-                alert("Error. Make sure your Google Sheet headers are 'Name', 'Message', and 'Date'."); 
-                btn.innerText = "POST NOW";
+        async function deletePost(id) {
+            if(confirm("Delete this post?")) {
+                await fetch(`${sheetyUrl}/${id}`, { method: 'DELETE' });
+                loadAdminPosts();
             }
         }
     </script>
