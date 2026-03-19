@@ -3,65 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stephen Cloud | coming soon</title>
+    <title>Stephen Cloud | Community Feed</title>
     <style>
-        * { margin: 0; padding: 0; box-box: border-box; }
+        /* Modern Design Colors */
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-            color: white;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
         }
-        .container {
+
+        header {
             text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px border rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            max-width: 600px;
         }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #63b3ed, #b794f4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #a0aec0;
-            margin-bottom: 2rem;
-        }
-        .status-badge {
+
+        h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        
+        .dm-button {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(72, 187, 120, 0.2);
-            color: #48bb78;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
             border-radius: 50px;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            margin-top: 15px;
+            transition: transform 0.2s;
         }
-        .footer {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #718096;
+
+        .dm-button:hover { transform: scale(1.05); }
+
+        /* Responsive Grid (Laptop: 2 columns, Mobile: 1 column) */
+        .feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Post Cards */
+        .post {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .username {
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .content { line-height: 1.6; }
+
+        .date {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            body { padding: 15px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="status-badge">● Site Live & Secure</div>
-        <h1>stephencloud.online</h1>
-        <p>Something big is coming to this space.</p>
-        <div class="footer">
-            Managed by Stephen
+
+    <header>
+        <h1>Stephen's Cloud Feed</h1>
+        <p>I post the best stuff from my DMs and Stories right here.</p>
+        <a href="https://instagram.com/yourusername" class="dm-button">DM me to get posted</a>
+    </header>
+
+    <div class="feed">
+        
+        <div class="post">
+            <span class="username">@anonymous_user</span>
+            <p class="content">"Yo Stephen! This website is looking clean. Love the new domain."</p>
+            <span class="date">Posted: March 20, 2026</span>
         </div>
+        <div class="post">
+            <span class="username">@friend_99</span>
+            <p class="content">"Check out this cool idea for the next project..."</p>
+            <span class="date">Posted: March 19, 2026</span>
+        </div>
+
     </div>
+
 </body>
 </html>
