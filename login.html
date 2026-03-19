@@ -8,8 +8,6 @@
         .box { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid var(--accent); width: 100%; max-width: 400px; display: inline-block; margin-bottom: 20px; }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #0b0f1a; color: white; box-sizing: border-box; }
         button { background: var(--accent); color: #000; padding: 10px; width: 100%; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        .post-item { background: #0b0f1a; padding: 10px; margin: 10px 0; border-radius: 8px; text-align: left; border: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-        .del-btn { background: #ff4444; color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; width: auto; }
         #adminUI { display: none; }
     </style>
 </head>
@@ -17,21 +15,16 @@
 
     <div id="loginBox" class="box">
         <h2>Enter PIN</h2>
-        <input type="password" id="pinInput" placeholder="8 6 6 8">
+        <input type="password" id="pinInput" placeholder="Enter Secret Code">
         <button onclick="verify()">Login</button>
     </div>
 
     <div id="adminUI">
         <div class="box">
-            <h2>New Post</h2>
+            <h2>Add New Post</h2>
             <input type="text" id="newName" placeholder="User Name">
             <textarea id="newMsg" placeholder="Message..."></textarea>
-            <button onclick="sendPost()">ADD POST</button>
-        </div>
-
-        <div class="box">
-            <h2>Manage Posts</h2>
-            <div id="currentPosts">Loading...</div>
+            <button id="submitBtn" onclick="sendPost()">ADD POST</button>
         </div>
     </div>
 
@@ -39,45 +32,45 @@
         const sheetyUrl = 'https://api.sheety.co/4a5b706b013e0344bac43977b3c5475e/login/sheet1';
 
         function verify() {
+            // Your secret code 8668
             if(document.getElementById('pinInput').value === "8668") {
                 document.getElementById('loginBox').style.display = "none";
                 document.getElementById('adminUI').style.display = "block";
-                loadAdminPosts();
-            } else { alert("Wrong PIN"); }
-        }
-
-        async function loadAdminPosts() {
-            const res = await fetch(sheetyUrl);
-            const data = await res.json();
-            const container = document.getElementById('currentPosts');
-            container.innerHTML = '';
-            data.sheet1.forEach(p => {
-                container.innerHTML += `
-                    <div class="post-item">
-                        <span>@${p.name}</span>
-                        <button class="del-btn" onclick="deletePost(${p.id})">DEL</button>
-                    </div>`;
-            });
+            } else { alert("Wrong PIN!"); }
         }
 
         async function sendPost() {
-            const body = { sheet1: {
-                name: document.getElementById('newName').value,
-                message: document.getElementById('newMsg').value,
-                date: new Date().toLocaleDateString()
-            }};
-            await fetch(sheetyUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(body)
-            });
-            loadAdminPosts();
-        }
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Sending...";
+            
+            const body = { 
+                sheet1: {
+                    name: document.getElementById('newName').value,
+                    message: document.getElementById('newMsg').value,
+                    date: new Date().toLocaleDateString()
+                }
+            };
 
-        async function deletePost(id) {
-            if(confirm("Delete this post?")) {
-                await fetch(`${sheetyUrl}/${id}`, { method: 'DELETE' });
-                loadAdminPosts();
+            try {
+                const response = await fetch(sheetyUrl, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                });
+
+                if(response.ok) {
+                    alert("Success! Post is now live.");
+                    document.getElementById('newName').value = '';
+                    document.getElementById('newMsg').value = '';
+                } else {
+                    const errorData = await response.text();
+                    console.log(errorData);
+                    alert("Submit failed. Check your Google Sheet column names.");
+                }
+            } catch (err) {
+                alert("Network error. Is your internet connected?");
+            } finally {
+                btn.innerText = "ADD POST";
             }
         }
     </script>
