@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stephen Cloud Admin</title>
+    <style>
+        body { background: #0b0f1a; color: white; font-family: sans-serif; text-align: center; padding: 100px; }
+        input { padding: 10px; border-radius: 5px; border: none; font-size: 1.2rem; text-align: center; }
+        button { padding: 10px 20px; background: #00d2ff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Enter Admin PIN</h1>
+    <input type="password" id="pin" placeholder="_ _ _ _">
+    <button onclick="checkPin()">Login</button>
+
+    <script>
+        function checkPin() {
+            const pin = document.getElementById('pin').value;
+            if (pin === "8668") {
+                // This sends you to your Google Sheet or a private Google Form to add posts
+                window.location.href = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID";
+            } else {
+                alert("Wrong Code!");
+            }
+        }
+    </script>
+</body>
+</html>
