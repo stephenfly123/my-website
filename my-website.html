@@ -1,20 +1,19 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stephen Cloud | Community Feed</title>
     <style>
-        /* Modern Design Colors */
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --accent: #38bdf8;
-            --text: #f8fafc;
+            --bg: #0b0f1a;
+            --card: #161b22;
+            --accent: #00d2ff;
+            --text: #ffffff;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
@@ -26,90 +25,72 @@
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            padding: 40px 20px;
             max-width: 600px;
         }
 
-        h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: -1px; }
         
         .dm-button {
             display: inline-block;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 12px 24px;
-            border-radius: 50px;
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            padding-bottom: 50px;
+        }
+
+        .post {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #30363d;
             transition: transform 0.2s;
         }
 
-        .dm-button:hover { transform: scale(1.05); }
+        .post:hover { transform: translateY(-5px); border-color: var(--accent); }
 
-        /* Responsive Grid (Laptop: 2 columns, Mobile: 1 column) */
-        .feed {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-        }
+        .username { color: var(--accent); font-weight: 600; margin-bottom: 10px; display: block; }
+        
+        .content { font-size: 1.1rem; line-height: 1.5; color: #c9d1d9; }
 
-        /* Post Cards */
-        .post {
-            background: var(--card);
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 5px solid var(--accent);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-        }
+        .date { display: block; margin-top: 15px; font-size: 0.8rem; color: #8b949e; }
 
-        .username {
-            font-weight: bold;
-            color: var(--accent);
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        .content { line-height: 1.6; }
-
-        .date {
-            display: block;
-            margin-top: 15px;
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            body { padding: 15px; }
+        /* Tablet/Mobile logic */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .feed { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Stephen's Cloud Feed</h1>
-        <p>I post the best stuff from my DMs and Stories right here.</p>
-        <a href="https://instagram.com/yourusername" class="dm-button">DM me to get posted</a>
+        <h1>stephencloud.online</h1>
+        <p>Sending me a DM on Instagram to get featured on the cloud.</p>
+        <a href="https://www.instagram.com/stephenmoheb/" class="dm-button">DM ME ON INSTA</a>
     </header>
 
     <div class="feed">
         
         <div class="post">
-            <span class="username">@anonymous_user</span>
-            <p class="content">"Yo Stephen! This website is looking clean. Love the new domain."</p>
-            <span class="date">Posted: March 20, 2026</span>
+            <span class="username">@waiting_for_first_dm</span>
+            <p class="content">"This is where your first community post will appear! Edit the HTML to change this text."</p>
+            <span class="date">March 20, 2026</span>
         </div>
-        <div class="post">
-            <span class="username">@friend_99</span>
-            <p class="content">"Check out this cool idea for the next project..."</p>
-            <span class="date">Posted: March 19, 2026</span>
         </div>
-
-    </div>
 
 </body>
 </html>
