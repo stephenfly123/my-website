@@ -3,57 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Test Project</title>
+    <title>Stephen Cloud | coming soon</title>
     <style>
+        * { margin: 0; padding: 0; box-box: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            overflow: hidden;
         }
         .container {
             text-align: center;
-            background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 500px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px border rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         h1 {
-            color: #4A90E2;
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #63b3ed, #b794f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         p {
-            line-height: 1.6;
-            color: #666;
+            font-size: 1.2rem;
+            color: #a0aec0;
+            margin-bottom: 2rem;
         }
-        .button {
+        .status-badge {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background-color: #4A90E2;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s ease;
+            padding: 0.5rem 1rem;
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
         }
-        .button:hover {
-            background-color: #357ABD;
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #718096;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Testing in Progress</h1>
-        <p>This is a simple HTML structure to help you test your ideas. You can change the colors, text, or layout right in the code.</p>
-        
-        <a href="#" class="button" onclick="alert('It works!')">Click to Test JS</a>
+        <div class="status-badge">● Site Live & Secure</div>
+        <h1>stephencloud.online</h1>
+        <p>Something big is coming to this space.</p>
+        <div class="footer">
+            Managed by Stephen | Hosted for Free on GitHub
+        </div>
     </div>
-
 </body>
 </html>
