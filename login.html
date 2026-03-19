@@ -1,27 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stephen Cloud Admin</title>
+    <title>Admin Login</title>
     <style>
-        body { background: #0b0f1a; color: white; font-family: sans-serif; text-align: center; padding: 100px; }
-        input { padding: 10px; border-radius: 5px; border: none; font-size: 1.2rem; text-align: center; }
-        button { padding: 10px 20px; background: #00d2ff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        body { background: #0b0f1a; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
+        .box { background: #161b22; padding: 30px; border-radius: 15px; display: inline-block; border: 1px solid #00d2ff; }
+        input, textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+        button { background: #00d2ff; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        #adminForm { display: none; }
     </style>
 </head>
 <body>
-    <h1>Enter Admin PIN</h1>
-    <input type="password" id="pin" placeholder="_ _ _ _">
-    <button onclick="checkPin()">Login</button>
+    <div class="box" id="loginBox">
+        <h2>Enter Admin PIN</h2>
+        <input type="password" id="pinInput" placeholder="8 6 6 8">
+        <button onclick="verify()">Login</button>
+    </div>
+
+    <div class="box" id="adminForm">
+        <h2>Add New Post</h2>
+        <input type="text" id="newName" placeholder="User Name">
+        <textarea id="newMsg" placeholder="Message content..."></textarea>
+        <button onclick="sendPost()">POST NOW</button>
+    </div>
 
     <script>
-        function checkPin() {
-            const pin = document.getElementById('pin').value;
-            if (pin === "8668") {
-                // This sends you to your Google Sheet or a private Google Form to add posts
-                window.location.href = "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID";
-            } else {
-                alert("Wrong Code!");
-            }
+        const sheetyUrl = 'https://api.sheety.co/4a5b706b013e0344bac43977b3c5475e/login/sheet1';
+
+        function verify() {
+            if(document.getElementById('pinInput').value === "8668") {
+                document.getElementById('loginBox').style.display = "none";
+                document.getElementById('adminForm').style.display = "inline-block";
+            } else { alert("Wrong PIN"); }
+        }
+
+        async function sendPost() {
+            const body = {
+                sheet1: {
+                    name: document.getElementById('newName').value,
+                    message: document.getElementById('newMsg').value,
+                    date: new Date().toLocaleDateString()
+                }
+            };
+
+            const response = await fetch(sheetyUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+
+            if(response.ok) {
+                alert("Post Added!");
+                location.reload();
+            } else { alert("Error adding post."); }
         }
     </script>
 </body>
