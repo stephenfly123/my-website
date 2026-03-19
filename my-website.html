@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stephen Cloud | Feed</title>
+    <title>Stephen Cloud | Community</title>
     <style>
         :root { --bg: #0b0f1a; --card: #161b22; --accent: #00d2ff; --text: #ffffff; }
         body { font-family: sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .feed { width: 100%; max-width: 800px; display: grid; gap: 20px; }
-        .post { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #333; }
-        .username { color: var(--accent); font-weight: bold; }
-        header { text-align: center; margin-bottom: 40px; }
+        .feed { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px; }
+        .post { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .username { color: var(--accent); font-weight: bold; display: block; margin-bottom: 5px; }
+        header { text-align: center; margin-bottom: 30px; }
     </style>
 </head>
 <body>
     <header>
         <h1>stephencloud.online</h1>
-        <p>Community Posts</p>
+        <p>Real DMs from the Community</p>
     </header>
 
-    <div class="feed" id="postFeed">Loading posts...</div>
+    <div class="feed" id="postFeed">Connecting to the cloud...</div>
 
     <script>
         const url = 'https://api.sheety.co/4a5b706b013e0344bac43977b3c5475e/login/sheet1';
@@ -29,20 +29,20 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 const feed = document.getElementById('postFeed');
-                feed.innerHTML = ''; // Clear loading text
+                feed.innerHTML = ''; 
 
-                // Only show the last 10 posts
+                // Get the last 10 rows and show newest first
                 const posts = data.sheet1.slice(-10).reverse(); 
 
-                posts.forEach(post => {
+                posts.forEach(p => {
                     feed.innerHTML += `
                         <div class="post">
-                            <span class="username">@${post.name || 'Anonymous'}</span>
-                            <p>${post.message}</p>
-                            <small style="color:#666">${post.date || ''}</small>
+                            <span class="username">@${p.name || 'Anonymous'}</span>
+                            <p>${p.message || ''}</p>
+                            <small style="color:#555">${p.date || ''}</small>
                         </div>`;
                 });
-            } catch (e) { document.getElementById('postFeed').innerHTML = "Error loading posts."; }
+            } catch (e) { document.getElementById('postFeed').innerHTML = "No posts yet. DM me to start!"; }
         }
         loadPosts();
     </script>
