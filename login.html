@@ -1,27 +1,27 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html>
 <head>
     <title>Admin Login</title>
     <style>
         body { background: #0b0f1a; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
-        .box { background: #161b22; padding: 30px; border-radius: 15px; display: inline-block; border: 1px solid #00d2ff; }
-        input, textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
-        button { background: #00d2ff; color: #000; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        .box { background: #161b22; padding: 30px; border-radius: 15px; display: inline-block; border: 1px solid #00d2ff; width: 300px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #0b0f1a; color: white; box-sizing: border-box; }
+        button { background: #00d2ff; color: #000; padding: 12px; width: 100%; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
         #adminForm { display: none; }
     </style>
 </head>
 <body>
     <div class="box" id="loginBox">
-        <h2>Enter Admin PIN</h2>
+        <h2>Admin PIN</h2>
         <input type="password" id="pinInput" placeholder="8 6 6 8">
         <button onclick="verify()">Login</button>
     </div>
 
     <div class="box" id="adminForm">
-        <h2>Add New Post</h2>
+        <h2>Add Post</h2>
         <input type="text" id="newName" placeholder="User Name">
         <textarea id="newMsg" placeholder="Message content..."></textarea>
-        <button onclick="sendPost()">POST NOW</button>
+        <button id="postBtn" onclick="sendPost()">POST NOW</button>
     </div>
 
     <script>
@@ -35,6 +35,9 @@
         }
 
         async function sendPost() {
+            const btn = document.getElementById('postBtn');
+            btn.innerText = "Posting...";
+            
             const body = {
                 sheet1: {
                     name: document.getElementById('newName').value,
@@ -50,9 +53,12 @@
             });
 
             if(response.ok) {
-                alert("Post Added!");
+                alert("Post Added to Cloud!");
                 location.reload();
-            } else { alert("Error adding post."); }
+            } else { 
+                alert("Error. Make sure your Google Sheet headers are 'Name', 'Message', and 'Date'."); 
+                btn.innerText = "POST NOW";
+            }
         }
     </script>
 </body>
